@@ -10,74 +10,81 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Carousel functionality
-    const track = document.querySelector('.carousel-track');
-    const cards = Array.from(document.querySelectorAll('.feature-card'));
-    const prevBtn = document.querySelector('.carousel-btn.prev');
-    const nextBtn = document.querySelector('.carousel-btn.next');
-    let currentIndex = 0;
-    let cardsToShow = 3;
-
-    function updateCardsToShow() {
-        if (window.innerWidth <= 600) {
-            cardsToShow = 1;
-        } else if (window.innerWidth <= 900) {
-            cardsToShow = 2;
-        } else {
-            cardsToShow = 3;
-        }
-    }
-
-    function updateCarousel() {
-        const wrapper = document.querySelector('.carousel-track-wrapper');
-        const gap = 32; // must match CSS gap
-        const cardWidth = cards[0].offsetWidth;
-        const visibleWidth = wrapper.clientWidth;
-        const totalWidth = track.scrollWidth; // total width of all cards + gaps
-
-        // Compute maximum translate so last card is fully visible
-        const maxTranslate = Math.max(0, totalWidth - visibleWidth);
-
-        // Desired translate based on index (approx)
-        let desiredTranslate = currentIndex * (cardWidth + gap);
-
-        // Clamp desiredTranslate to [0, maxTranslate]
-        desiredTranslate = Math.max(0, Math.min(desiredTranslate, maxTranslate));
-
-        track.style.transform = `translateX(-${desiredTranslate}px)`;
-
-        // Disable/enable buttons at ends
-        prevBtn.disabled = desiredTranslate === 0;
-        nextBtn.disabled = desiredTranslate === maxTranslate;
-    }
-
-    prevBtn.addEventListener('click', () => {
-        if (currentIndex > 0) {
-            currentIndex--;
-            updateCarousel();
-        }
-    });
-    nextBtn.addEventListener('click', () => {
-        const maxIndex = Math.max(0, cards.length - cardsToShow);
-        if (currentIndex < maxIndex) {
-            currentIndex++;
-            updateCarousel();
-        }
-    });
-
-    window.addEventListener('resize', () => {
-        updateCardsToShow();
-        updateCarousel();
-    });
-
-    updateCardsToShow();
-    updateCarousel();
-
     // "Buy Now" button functionality
     const buyButton = document.getElementById('buy-button');
     if (buyButton) {
         buyButton.addEventListener('click', () => {
             alert('Thank you for your interest! Pre-orders will be available soon.');
+        });
+    }
+
+    // Feature slider
+    const slider = document.querySelector('.feature-slider');
+    if (slider) {
+        const slidesContainer = slider.querySelector('.slides');
+        let slides = Array.from(slidesContainer.children); // use all slides
+        const dotsNode = slider.querySelector('.slider-dots');
+        let current = 0;
+        let autoplayInterval = null;
+    const slidesWrapper = slider.querySelector('.slides-wrapper');
+    let slideWidth = slidesWrapper.clientWidth; // one slide fills wrapper
+
+        // create dots (rebuild if already present)
+        dotsNode.innerHTML = '';
+        slides.forEach((s, i) => {
+            const b = document.createElement('button');
+            b.setAttribute('aria-label', `Go to slide ${i+1}`);
+            b.addEventListener('click', () => goTo(i));
+            dotsNode.appendChild(b);
+        });
+
+        let dots = Array.from(dotsNode.children);
+
+        function update() {
+            slidesContainer.style.transform = `translateX(-${current * slideWidth}px)`;
+            dots.forEach((d, i) => d.classList.toggle('active', i === current));
+        }
+
+        function recalc() {
+            slides = Array.from(slidesContainer.children);
+            slideWidth = slidesWrapper.clientWidth;
+            // rebuild dots in case slide count changed
+            dotsNode.innerHTML = '';
+            slides.forEach((s, i) => {
+                const b = document.createElement('button');
+                b.setAttribute('aria-label', `Go to slide ${i+1}`);
+                b.addEventListener('click', () => goTo(i));
+                dotsNode.appendChild(b);
+            });
+            dots = Array.from(dotsNode.children);
+            update();
+        }
+
+    function goTo(i) { current = i % slides.length; update(); }
+
+    // autoplay only
+    function next() { current = (current + 1) % slides.length; update(); }
+    function startAutoplay() { autoplayInterval = setInterval(next, 3500); }
+        function stopAutoplay() { clearInterval(autoplayInterval); autoplayInterval = null; }
+
+
+    slider.addEventListener('mouseenter', stopAutoplay);
+        slider.addEventListener('focusin', stopAutoplay);
+        slider.addEventListener('mouseleave', () => { if (!autoplayInterval) startAutoplay(); });
+
+        // keyboard support (left/right still allowed for accessibility)
+        slider.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') { current = (current - 1 + slides.length) % slides.length; update(); }
+            if (e.key === 'ArrowRight') { next(); }
+        });
+
+        // initialize
+        update();
+        startAutoplay();
+
+        // recalc on resize
+        window.addEventListener('resize', () => {
+            recalc();
         });
     }
 });
