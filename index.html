@@ -13,7 +13,12 @@
     <header>
         <nav>
             <div class="logo"><img src="logo.png" alt="Logo" style="height: 40px;"></div>
-            <ul>
+            <button class="menu-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
                 <li><a href="#hero">Home</a></li>
               <!--<li><a href="#features">Features</a></li>-->
                 <li><a href="https://amzn.to/488mfh6">Buy Now</a></li>
@@ -34,33 +39,44 @@
     </section>
 
     <section id="features">
-        <!--<h2>Features</h2>-->
-        <div class="feature-slider" aria-roledescription="carousel">
-            <div class="slides-wrapper">
-                <div class="slides">
-                    <article class="feature-slide">
-                        <h3>Camera Control Button Protection</h3>
-                        <p>Smooth touch and full protection for camera control button with TPU layer.</p>
-                        <img src="61eWAnNPV0L._SL1500_.jpg" alt="Camera protection"/>
-                    </article>
-                    <article class="feature-slide">
-                        <h3>Built-in Magnet</h3>
-                        <p>Built-in magnets for compatibility with MagFit magnetic accessories and more.</p>
-                        <img src="61R7mtHOOEL._SL1500_.jpg" alt="Built-in magnet"/>
-                    </article>
-                    <article class="feature-slide">
-                        <h3>Protection</h3>
-                        <p>Air Cushion Technology for shock absorption & raised lip to protect screen and camera.</p>
-                        <img src="61-sGgS8oXL._SL1500_.jpg" alt="Protection"/>
-                    </article>
-                    <article class="feature-slide">
-                        <h3>Material</h3>
-                        <p>Hybrid technology made of a yellowing-resistant TPU bumper with a durable PC back.</p>
-                        <img src="61U8l54NflL._SL1500_.jpg" alt="Material"/>
-                    </article>
+        <h2>Premium Features</h2>
+        <div class="feature-grid">
+            <article class="feature-card">
+                <div class="feature-content">
+                    <h3>Camera Control Button Protection</h3>
+                    <p>Smooth touch and full protection for camera control button with TPU layer.</p>
                 </div>
-            </div>
-            <div class="slider-dots" role="tablist" aria-label="Feature dots"></div>
+                <div class="feature-image">
+                    <img src="61eWAnNPV0L._SL1500_.jpg" alt="Camera protection"/>
+                </div>
+            </article>
+            <article class="feature-card">
+                <div class="feature-content">
+                    <h3>Built-in Magnet</h3>
+                    <p>Built-in magnets for compatibility with MagFit magnetic accessories and more.</p>
+                </div>
+                <div class="feature-image">
+                    <img src="61R7mtHOOEL._SL1500_.jpg" alt="Built-in magnet"/>
+                </div>
+            </article>
+            <article class="feature-card">
+                <div class="feature-content">
+                    <h3>Protection</h3>
+                    <p>Air Cushion Technology for shock absorption & raised lip to protect screen and camera.</p>
+                </div>
+                <div class="feature-image">
+                    <img src="61-sGgS8oXL._SL1500_.jpg" alt="Protection"/>
+                </div>
+            </article>
+            <article class="feature-card">
+                <div class="feature-content">
+                    <h3>Material</h3>
+                    <p>Hybrid technology made of a yellowing-resistant TPU bumper with a durable PC back.</p>
+                </div>
+                <div class="feature-image">
+                    <img src="61U8l54NflL._SL1500_.jpg" alt="Material"/>
+                </div>
+            </article>
         </div>
     </section>
 
@@ -151,3 +167,5 @@
     <script src="script.js"></script>
 </body>
 </html>
+
+
